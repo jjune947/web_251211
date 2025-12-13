@@ -7,636 +7,620 @@
 <meta property="og:description" content="주문 즉시 조리하는 신선한 수제버거, 맘스터치">
 <meta property="og:image" content="https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1500&auto=format&fit=crop">
 <title>맘스터치 - 빠르게보다 올바르게</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght @300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    :root {
-        --primary: #FFC300;
-        --secondary: #4A3B32;
-        --accent: #E53935;
-        --bg-color: #ffffff;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-sub: #666666;
-        --border: #eeeeee;
-        --shadow: rgba(0,0,0,0.1);
-        --footer-bg: #222222;
-        --footer-text: #999999;
-    }
-    body.dark-mode {
-        --bg-color: #1a1a1a;
-        --card-bg: #2d2d2d;
-        --text-main: #f1f1f1;
-        --text-sub: #aaaaaa;
-        --border: #444444;
-        --shadow: rgba(0,0,0,0.5);
-        --secondary: #FFC300; 
-        --footer-bg: #111111;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; transition: background-color 0.3s, color 0.3s; }
-    body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-    button { border: none; cursor: pointer; }
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
-    header { position: fixed; top: 0; width: 100%; background-color: var(--card-bg); box-shadow: 0 2px 10px var(--shadow); z-index: 1000; height: 70px; }
-    .header-inner { max-width: 1200px; margin: 0 auto; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
-    .logo { font-size: 1.8rem; font-weight: 900; color: var(--secondary); letter-spacing: -1px; }
-    .logo span { color: var(--accent); }
-    .nav-menu { display: flex; gap: 20px; font-weight: 700; cursor: pointer;}
-    .nav-menu li:hover { color: var(--primary); }
-    .utils { display: flex; align-items: center; gap: 10px; }
-    .btn-icon { background: var(--bg-color); border: 1px solid var(--text-sub); color: var(--text-main); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; }
-    select.lang-select { padding: 6px 10px; border-radius: 5px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--text-sub); font-weight: bold; cursor: pointer; }
-    .hamburger { display: none; font-size: 1.5rem; color: var(--text-main); background: none; }
-    .sidebar { position: fixed; top: 0; right: -250px; width: 250px; height: 100%; background-color: var(--card-bg); box-shadow: -2px 0 5px var(--shadow); z-index: 1100; padding: 20px; transition: right 0.3s ease; display: flex; flex-direction: column; gap: 20px; }
-    .sidebar.open { right: 0; }
-    .sidebar-header { display: flex; justify-content: space-between; align-items: center; }
-    .close-sidebar { font-size: 1.5rem; background: none; color: var(--text-main); }
-    .sidebar-menu li { padding: 15px 0; border-bottom: 1px solid var(--border); font-weight: bold; cursor: pointer; }
-    .sidebar-utils { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;}
-    .hero { margin-top: 70px; height: 500px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
-    .hero h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 5px black; }
-    .btn-cta { padding: 15px 40px; background-color: var(--primary); color: #000; font-size: 1.2rem; font-weight: bold; border-radius: 50px; box-shadow: 0 4px 15px rgba(255, 195, 0, 0.4); }
-    .btn-cta:hover { transform: scale(1.05); background-color: #ffb300; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
-    .section-title { text-align: center; margin-bottom: 50px; }
-    .section-title h2 { font-size: 2.5rem; margin-bottom: 10px; }
-    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; justify-content: center; }
-    .card { background-color: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px var(--shadow); position: relative; cursor: pointer; transition: transform 0.3s; }
-    .card:hover { transform: translateY(-10px); }
-    .card img { width: 100%; height: 250px; object-fit: cover; }
-    .badge { position: absolute; top: 15px; left: 15px; background-color: var(--accent); color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; }
-    .card-body { padding: 20px; text-align: center; }
-    .card-body h3 { font-size: 1.4rem; margin-bottom: 5px; }
-    .card-body p { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px; height: 40px; }
-    .price { font-size: 1.3rem; font-weight: 900; color: var(--text-main); }
-    .fab-cart { position: fixed; bottom: 30px; right: 30px; background-color: var(--accent); color: white; width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 900; cursor: pointer; transition: transform 0.2s; }
-    .fab-cart:hover { transform: scale(1.1); }
-    .cart-count { position: absolute; top: 0; right: 0; background-color: var(--primary); color: black; width: 25px; height: 25px; border-radius: 50%; font-size: 0.9rem; font-weight: bold; display: flex; justify-content: center; align-items: center; border: 2px solid white; }
-    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-    .modal-content { background-color: var(--card-bg); padding: 30px; border-radius: 15px; text-align: center; max-width: 500px; width: 90%; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s ease-out; }
-    @keyframes slideUp { from {transform: translateY(50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
-    .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
-    .nutrition-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.9rem; color: var(--text-main); }
-    .nutrition-table th, .nutrition-table td { border: 1px solid var(--border); padding: 8px; }
-    .nutrition-table th { background-color: var(--primary); color: #000; }
-    .modal-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
-    .btn-modal { padding: 10px 20px; border-radius: 5px; font-weight: bold; flex: 1; }
-    .btn-close { background-color: var(--border); color: var(--text-main); }
-    .btn-add { background-color: var(--accent); color: white; }
-    .cart-list { list-style: none; text-align: left; max-height: 300px; overflow-y: auto; margin: 20px 0; border-top: 1px solid var(--border); }
-    .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
-    .cart-total { font-size: 1.5rem; font-weight: 900; color: var(--accent); margin-top: 20px; text-align: right; }
-    footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0; font-size: 0.9rem; }
-    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-    .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
-    .footer-col ul li { margin-bottom: 10px; cursor: pointer; transition: color 0.3s; }
-    .footer-col ul li:hover { color: var(--primary); }
-    .footer-info { margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; text-align: center; font-size: 0.8rem; }
-    .sns-icons { display: flex; gap: 15px; margin-top: 20px; }
-    .sns-icons a { font-size: 1.5rem; color: var(--footer-text); transition: color 0.3s; }
-    .sns-icons a:hover { color: var(--primary); }
-    
-    .toast {
-        visibility: hidden;
-        min-width: 250px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 30px;
-        padding: 16px;
-        position: fixed;
-        z-index: 3000;
-        left: 50%;
-        bottom: 30px;
-        transform: translateX(-50%);
-        font-size: 1rem;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        opacity: 0;
-        transition: opacity 0.5s, bottom 0.5s;
-    }
-    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+    :root {
+        --primary: #FFC300;
+        --secondary: #4A3B32;
+        --accent: #E53935;
+        --bg-color: #ffffff;
+        --card-bg: #ffffff;
+        --text-main: #333333;
+        --text-sub: #666666;
+        --border: #eeeeee;
+        --shadow: rgba(0,0,0,0.1);
+        --footer-bg: #222222;
+        --footer-text: #999999;
+    }
+    body.dark-mode {
+        --bg-color: #1a1a1a;
+        --card-bg: #2d2d2d;
+        --text-main: #f1f1f1;
+        --text-sub: #aaaaaa;
+        --border: #444444;
+        --shadow: rgba(0,0,0,0.5);
+        --secondary: #FFC300; 
+        --footer-bg: #111111;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; transition: background-color 0.3s, color 0.3s; }
+    body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { border: none; cursor: pointer; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    header { position: fixed; top: 0; width: 100%; background-color: var(--card-bg); box-shadow: 0 2px 10px var(--shadow); z-index: 1000; height: 70px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; height: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+    .logo { font-size: 1.8rem; font-weight: 900; color: var(--secondary); letter-spacing: -1px; }
+    .logo span { color: var(--accent); }
+    .nav-menu { display: flex; gap: 20px; font-weight: 700; cursor: pointer;}
+    .nav-menu li:hover { color: var(--primary); }
+    .utils { display: flex; align-items: center; gap: 10px; }
+    .btn-icon { background: var(--bg-color); border: 1px solid var(--text-sub); color: var(--text-main); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; }
+    select.lang-select { padding: 6px 10px; border-radius: 5px; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--text-sub); font-weight: bold; cursor: pointer; }
+    .hamburger { display: none; font-size: 1.5rem; color: var(--text-main); background: none; }
+    .sidebar { position: fixed; top: 0; right: -250px; width: 250px; height: 100%; background-color: var(--card-bg); box-shadow: -2px 0 5px var(--shadow); z-index: 1100; padding: 20px; transition: right 0.3s ease; display: flex; flex-direction: column; gap: 20px; }
+    .sidebar.open { right: 0; }
+    .sidebar-header { display: flex; justify-content: space-between; align-items: center; }
+    .close-sidebar { font-size: 1.5rem; background: none; color: var(--text-main); }
+    .sidebar-menu li { padding: 15px 0; border-bottom: 1px solid var(--border); font-weight: bold; cursor: pointer; }
+    .sidebar-utils { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;}
+    .hero { margin-top: 70px; height: 500px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+    .hero h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 2px 2px 5px black; }
+    .btn-cta { padding: 15px 40px; background-color: var(--primary); color: #000; font-size: 1.2rem; font-weight: bold; border-radius: 50px; box-shadow: 0 4px 15px rgba(255, 195, 0, 0.4); }
+    .btn-cta:hover { transform: scale(1.05); background-color: #ffb300; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title h2 { font-size: 2.5rem; margin-bottom: 10px; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; justify-content: center; }
+    .card { background-color: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px var(--shadow); position: relative; cursor: pointer; transition: transform 0.3s; }
+    .card:hover { transform: translateY(-10px); }
+    .card img { width: 100%; height: 250px; object-fit: cover; }
+    .badge { position: absolute; top: 15px; left: 15px; background-color: var(--accent); color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.8rem; }
+    .card-body { padding: 20px; text-align: center; }
+    .card-body h3 { font-size: 1.4rem; margin-bottom: 5px; }
+    .card-body p { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px; height: 40px; }
+    .price { font-size: 1.3rem; font-weight: 900; color: var(--text-main); }
+    .fab-cart { position: fixed; bottom: 30px; right: 30px; background-color: var(--accent); color: white; width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 900; cursor: pointer; transition: transform 0.2s; }
+    .fab-cart:hover { transform: scale(1.1); }
+    .cart-count { position: absolute; top: 0; right: 0; background-color: var(--primary); color: black; width: 25px; height: 25px; border-radius: 50%; font-size: 0.9rem; font-weight: bold; display: flex; justify-content: center; align-items: center; border: 2px solid white; }
+    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background-color: var(--card-bg); padding: 30px; border-radius: 15px; text-align: center; max-width: 500px; width: 90%; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from {transform: translateY(50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+    .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
+    .nutrition-table { width: 100%; margin: 20px 0; border-collapse: collapse; font-size: 0.9rem; color: var(--text-main); }
+    .nutrition-table th, .nutrition-table td { border: 1px solid var(--border); padding: 8px; }
+    .nutrition-table th { background-color: var(--primary); color: #000; }
+    .modal-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+    .btn-modal { padding: 10px 20px; border-radius: 5px; font-weight: bold; flex: 1; }
+    .btn-close { background-color: var(--border); color: var(--text-main); }
+    .btn-add { background-color: var(--accent); color: white; }
+    .cart-list { list-style: none; text-align: left; max-height: 300px; overflow-y: auto; margin: 20px 0; border-top: 1px solid var(--border); }
+    .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .cart-total { font-size: 1.5rem; font-weight: 900; color: var(--accent); margin-top: 20px; text-align: right; }
+    footer { background-color: var(--footer-bg); color: var(--footer-text); padding: 60px 0; font-size: 0.9rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+    .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+    .footer-col ul li { margin-bottom: 10px; cursor: pointer; transition: color 0.3s; }
+    .footer-col ul li:hover { color: var(--primary); }
+    .footer-info { margin-top: 40px; border-top: 1px solid #333; padding-top: 20px; text-align: center; font-size: 0.8rem; }
+    .sns-icons { display: flex; gap: 15px; margin-top: 20px; }
+    .sns-icons a { font-size: 1.5rem; color: var(--footer-text); transition: color 0.3s; }
+    .sns-icons a:hover { color: var(--primary); }
+    
+    .toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 30px;
+        padding: 16px;
+        position: fixed;
+        z-index: 3000;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-size: 1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        opacity: 0;
+        transition: opacity 0.5s, bottom 0.5s;
+    }
+    .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-    .brand-modal-content { max-width: 800px; width: 90%; height: 80vh; overflow-y: auto; padding: 0; text-align: left; display: flex; flex-direction: column; }
-    .brand-header { position: relative; height: 300px; background: url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1665&auto=format&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; color: white; }
-    .brand-header h2 { font-size: 3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); z-index: 2; }
-    .brand-header::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); }
-    .brand-text { padding: 40px; line-height: 1.8; font-size: 1.1rem; color: var(--text-main); }
-    .brand-text h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 20px; font-weight: 900;}
-    .close-brand { position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+    .brand-modal-content { max-width: 800px; width: 90%; height: 80vh; overflow-y: auto; padding: 0; text-align: left; display: flex; flex-direction: column; }
+    .brand-header { position: relative; height: 300px; background: url('https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1665&auto=format&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; color: white; }
+    .brand-header h2 { font-size: 3rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); z-index: 2; }
+    .brand-header::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); }
+    .brand-text { padding: 40px; line-height: 1.8; font-size: 1.1rem; color: var(--text-main); }
+    .brand-text h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 20px; font-weight: 900;}
+    .close-brand { position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.5); color: white; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; cursor: pointer; }
 
-    @media(max-width: 768px) {
-        .nav-menu { display: none; }
-        .hamburger { display: block; }
-        .hero h1 { font-size: 2rem; }
-        .fab-cart { width: 60px; height: 60px; bottom: 20px; right: 20px; font-size: 1.5rem; }
-        .brand-header h2 { font-size: 2rem; }
-        .brand-text { padding: 20px; }
-    }
+    @media(max-width: 768px) {
+        .nav-menu { display: none; }
+        .hamburger { display: block; }
+        .hero h1 { font-size: 2rem; }
+        .fab-cart { width: 60px; height: 60px; bottom: 20px; right: 20px; font-size: 1.5rem; }
+        .brand-header h2 { font-size: 2rem; }
+        .brand-text { padding: 20px; }
+    }
 </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <div class="logo">MOM'S <span>TOUCH</span></div>
-            <ul class="nav-menu">
-                <li onclick="openBrandStory()" data-i18n="nav_story">브랜드 스토리</li>
-                <li onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="nav_menu">메뉴소개</li>
-                <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i18n="nav_store">매장찾기</li>
-                <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
-            </ul>
-            <div class="utils">
-                <button class="btn-icon" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
-                <select class="lang-select" onchange="changeLanguage(this.value)">
-                    <option value="ko">KOR</option>
-                    <option value="en">ENG</option>
-                    <option value="jp">JPN</option>
-                </select>
-                <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-    </header>
+    <header>
+        <div class="header-inner">
+            <div class="logo">MOM'S <span>TOUCH</span></div>
+            <ul class="nav-menu">
+                <li onclick="openBrandStory()" data-i18n="nav_story">브랜드 스토리</li>
+                <li onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="nav_menu">메뉴소개</li>
+                <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i18n="nav_store">매장찾기</li>
+                <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
+            </ul>
+            <div class="utils">
+                <button class="btn-icon" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+                <select class="lang-select" onchange="changeLanguage(this.value)">
+                    <option value="ko">KOR</option>
+                    <option value="en">ENG</option>
+                    <option value="jp">JPN</option>
+                </select>
+                <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <span style="font-weight:900; font-size:1.2rem;">MOM'S TOUCH</span>
-            <button class="close-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
-        </div>
-        <ul class="sidebar-menu">
-            <li onclick="toggleSidebar(); openBrandStory()" data-i18n="nav_story">브랜드 스토리</li>
-            <li onclick="toggleSidebar(); document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="nav_menu">메뉴소개</li>
-            <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i18n="nav_store">매장찾기</li>
-            <li onclick="window.open('https://www.momstouch.co.kr/brand/notice_list.php')" data-i18n="nav_event">이벤트</li>
-            <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
-        </ul>
-        <div class="sidebar-utils">
-            <span style="font-weight:bold; font-size:0.9rem;" data-i18n="settings">설정</span>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-icon" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
-                <select class="lang-select" onchange="changeLanguage(this.value)">
-                    <option value="ko">KOR</option>
-                    <option value="en">ENG</option>
-                    <option value="jp">JPN</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span style="font-weight:900; font-size:1.2rem;">MOM'S TOUCH</span>
+            <button class="close-sidebar" onclick="toggleSidebar()"><i class="fas fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li onclick="toggleSidebar(); openBrandStory()" data-i18n="nav_story">브랜드 스토리</li>
+            <li onclick="toggleSidebar(); document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="nav_menu">메뉴소개</li>
+            <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i18n="nav_store">매장찾기</li>
+            <li onclick="window.open('https://www.momstouch.co.kr/brand/notice_list.php')" data-i18n="nav_event">이벤트</li>
+            <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
+        </ul>
+        <div class="sidebar-utils">
+            <span style="font-weight:bold; font-size:0.9rem;" data-i18n="settings">설정</span>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-icon" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+                <select class="lang-select" onchange="changeLanguage(this.value)">
+                    <option value="ko">KOR</option>
+                    <option value="en">ENG</option>
+                    <option value="jp">JPN</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
-    <div id="toast" class="toast">알림 메시지</div>
+    <div id="toast" class="toast">알림 메시지</div>
 
-    <div id="brandModal" class="modal">
-        <div class="modal-content brand-modal-content">
-            <button class="close-brand" onclick="closeBrandStory()"><i class="fas fa-times"></i></button>
-            <div class="brand-header">
-                <h2>MOM'S TOUCH</h2>
-            </div>
-            <div class="brand-text">
-                <h3 data-i18n="brand_title">빠르게보다 올바르게</h3>
-                <p data-i18n="brand_desc" style="white-space: pre-line;">
-                    맘스터치는 단순한 패스트푸드가 아닙니다.
-                    우리는 주문 후 조리하는 방식을 고집합니다.
-                    
-                    신선한 재료와 정성스러운 손길로
-                    엄마의 마음을 담아 따뜻한 한 끼를 제공합니다.
-                    
-                    가성비를 넘어 가심비까지,
-                    대한민국 대표 버거 브랜드 맘스터치입니다.
-                </p>
-            </div>
-        </div>
-    </div>
+    <div id="brandModal" class="modal">
+        <div class="modal-content brand-modal-content">
+            <button class="close-brand" onclick="closeBrandStory()"><i class="fas fa-times"></i></button>
+            <div class="brand-header">
+                <h2>MOM'S TOUCH</h2>
+            </div>
+            <div class="brand-text">
+                <h3 data-i18n="brand_title">빠르게보다 올바르게</h3>
+                <p data-i18n="brand_desc" style="white-space: pre-line;">
+                    맘스터치는 단순한 패스트푸드가 아닙니다.
+                    우리는 주문 후 조리하는 방식을 고집합니다.
+                    
+                    신선한 재료와 정성스러운 손길로
+                    엄마의 마음을 담아 따뜻한 한 끼를 제공합니다.
+                    
+                    가성비를 넘어 가심비까지,
+                    대한민국 대표 버거 브랜드 맘스터치입니다.
+                </p>
+            </div>
+        </div>
+    </div>
 
-    <section class="hero reveal">
-        <h1 data-i18n="heroTitle">압도적인 크기, 싸이버거</h1>
-        <p data-i18n="heroSub">주문 즉시 조리하는 신선한 수제 버거의 기준</p>
-        <button class="btn-cta" onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="orderBtn">주문하기</button>
-    </section>
+    <section class="hero reveal">
+        <h1 data-i18n="heroTitle">압도적인 크기, 싸이버거</h1>
+        <p data-i18n="heroSub">주문 즉시 조리하는 신선한 수제 버거의 기준</p>
+        <button class="btn-cta" onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})" data-i18n="orderBtn">주문하기</button>
+    </section>
 
-    <section class="container">
-        <div class="section-title reveal">
-            <h2 data-i18n="menuTitle">맘스터치 대표 메뉴</h2>
-            <p data-i18n="menuSub">가성비 그 이상의 감동을 만나보세요</p>
-        </div>
-        <div class="menu-grid">
-            <div class="card reveal" onclick="showDetail(1)">
-                <div class="badge">BEST</div>
-                <img src="https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1500&auto=format&fit=crop" alt="싸이버거">
-                <div class="card-body">
-                    <h3 data-i18n="menu1_name">싸이버거</h3>
-                    <p data-i18n="menu1_desc">매콤바삭한 통다리살 패티가 통째로!</p>
-                    <div class="price">₩4,600</div>
-                </div>
-            </div>
-            
-                        <div class="card reveal" onclick="showDetail(4)">
-                <div class="badge">CHICKEN</div>
-                <img src="image_dc29f7.jpg" alt="케이준떡닭강정">
-                <div class="card-body">
-                    <h3 data-i18n="menu2_name">케이준떡닭강정</h3>
-                    <p data-i18n="menu2_desc">케이준 소스를 입은 바삭한 닭강정과 쫄깃한 떡!</p>
-                    <div class="price">₩11,700</div>
-                </div>
-            </div>
-            
-            <div class="card reveal" onclick="showDetail(2)">
-                <div class="badge">HOT</div>
-                <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=1450&auto=format&fit=crop" alt="케이준 감자">
-                <div class="card-body">
-                    <h3 data-i18n="menu3_name">케이준 양념감자</h3>
-                    <p data-i18n="menu3_desc">한 번 맛보면 멈출 수 없는 감자튀김.</p>
-                    <div class="price">₩2,000</div>
-                </div>
-            </div>
-            <div class="card reveal" onclick="showDetail(3)">
-                <div class="badge">NEW</div>
-                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=1470&auto=format&fit=crop" alt="치킨">
-                <div class="card-body">
-                    <h3 data-i18n="menu4_name">후라이드 치킨</h3>
-                    <p data-i18n="menu4_desc">겉바속촉의 정석, 맘스터치 치킨.</p>
-                    <div class="price">₩16,900</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section class="container">
+        <div class="section-title reveal">
+            <h2 data-i18n="menuTitle">맘스터치 대표 메뉴</h2>
+            <p data-i18n="menuSub">가성비 그 이상의 감동을 만나보세요</p>
+        </div>
+        <div class="menu-grid">
+            <div class="card reveal" onclick="showDetail(1)">
+                <div class="badge">BEST</div>
+                <img src="https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1500&auto=format&fit=crop" alt="싸이버거">
+                <div class="card-body">
+                    <h3 data-i18n="menu1_name">싸이버거</h3>
+                    <p data-i18n="menu1_desc">매콤바삭한 통다리살 패티가 통째로!</p>
+                    <div class="price">₩4,600</div>
+                </div>
+            </div>
+            <div class="card reveal" onclick="showDetail(2)">
+                <div class="badge">HOT</div>
+                <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=1450&auto=format&fit=crop" alt="케이준 감자">
+                <div class="card-body">
+                    <h3 data-i18n="menu3_name">케이준 양념감자</h3>
+                    <p data-i18n="menu3_desc">한 번 맛보면 멈출 수 없는 감자튀김.</p>
+                    <div class="price">₩2,000</div>
+                </div>
+            </div>
+            <div class="card reveal" onclick="showDetail(3)">
+                <div class="badge">NEW</div>
+                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=1470&auto=format&fit=crop" alt="치킨">
+                <div class="card-body">
+                    <h3 data-i18n="menu4_name">후라이드 치킨</h3>
+                    <p data-i18n="menu4_desc">겉바속촉의 정석, 맘스터치 치킨.</p>
+                    <div class="price">₩16,900</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="fab-cart" onclick="openCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <div class="cart-count" id="cartCount">0</div>
-    </div>
+    <div class="fab-cart" onclick="openCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <div class="cart-count" id="cartCount">0</div>
+    </div>
 
-    <div id="detailModal" class="modal">
-        <div class="modal-content">
-            <img id="modalImg" src="" class="detail-img">
-            <h2 id="modalTitle">메뉴 이름</h2>
-            <p id="modalDesc" style="color:var(--text-sub); margin-bottom:10px;">설명</p>
-            <h3 class="price" id="modalPrice">₩0</h3>
-            <table class="nutrition-table">
-                <tr><th data-i18n="nut_w">중량(g)</th><th data-i18n="nut_k">칼로리(kcal)</th><th data-i18n="nut_p">단백질(g)</th><th data-i18n="nut_n">나트륨(mg)</th></tr>
-                <tr><td id="nutWeight">-</td><td id="nutKcal">-</td><td id="nutProtein">-</td><td id="nutNa">-</td></tr>
-            </table>
-            <div class="modal-btns">
-                <button class="btn-modal btn-close" onclick="closeDetail()" data-i18n="btn_cancel">취소</button>
-                <button class="btn-modal btn-add" onclick="addToCartFromModal()" data-i118n="btn_add">장바구니 담기</button>
-            </div>
-        </div>
-    </div>
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <img id="modalImg" src="" class="detail-img">
+            <h2 id="modalTitle">메뉴 이름</h2>
+            <p id="modalDesc" style="color:var(--text-sub); margin-bottom:10px;">설명</p>
+            <h3 class="price" id="modalPrice">₩0</h3>
+            <table class="nutrition-table">
+                <tr><th data-i18n="nut_w">중량(g)</th><th data-i18n="nut_k">칼로리(kcal)</th><th data-i18n="nut_p">단백질(g)</th><th data-i18n="nut_n">나트륨(mg)</th></tr>
+                <tr><td id="nutWeight">-</td><td id="nutKcal">-</td><td id="nutProtein">-</td><td id="nutNa">-</td></tr>
+            </table>
+            <div class="modal-btns">
+                <button class="btn-modal btn-close" onclick="closeDetail()" data-i18n="btn_cancel">취소</button>
+                <button class="btn-modal btn-add" onclick="addToCartFromModal()" data-i18n="btn_add">장바구니 담기</button>
+            </div>
+        </div>
+    </div>
 
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <h2><i class="fas fa-shopping-cart"></i> <span data-i18n="cart_title">장바구니</span></h2>
-            <ul class="cart-list" id="cartList">
-                <li style="padding:20px; text-align:center;" data-i118n="cart_empty">장바구니가 비었습니다.</li>
-            </ul>
-            <div class="cart-total" id="cartTotal">Total: ₩0</div>
-            <div class="modal-btns">
-                <button class="btn-modal btn-close" onclick="closeCart()" data-i118n="btn_more">더 담기</button>
-                <button class="btn-modal btn-add" onclick="document.querySelector('#cartModal .btn-add').dispatchEvent(new Event('click'))" data-i118n="btn_pay">결제하기</button>
-            </div>
-        </div>
-    </div>
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-shopping-cart"></i> <span data-i18n="cart_title">장바구니</span></h2>
+            <ul class="cart-list" id="cartList">
+                <li style="padding:20px; text-align:center;" data-i18n="cart_empty">장바구니가 비었습니다.</li>
+            </ul>
+            <div class="cart-total" id="cartTotal">Total: ₩0</div>
+            <div class="modal-btns">
+                <button class="btn-modal btn-close" onclick="closeCart()" data-i18n="btn_more">더 담기</button>
+                <button class="btn-modal btn-add" onclick="showToast('주문이 완료되었습니다!')" data-i18n="btn_pay">결제하기</button>
+            </div>
+        </div>
+    </div>
 
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-col">
-                <h4 data-i118n="footer_company">회사 소개</h4>
-                <ul>
-                    <li onclick="openBrandStory()" data-i118n="nav_story">브랜드 스토리</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/franchise/process.php')" data-i118n="footer_franchise">가맹점 문의</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/brand/recruit.php')" data-i118n="footer_recruit">채용 정보</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i118n="footer_map">찾아오시는 길</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4 data-i118n="footer_support">고객 지원</h4>
-                <ul>
-                    <li onclick="window.open('https://www.momstouch.co.kr/member/terms.php')" data-i118n="footer_terms">이용약관</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/member/privacy.php')" data-i118n="footer_privacy">개인정보처리방침</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
-                    <li onclick="window.open('https://www.momstouch.co.kr/customer/faq.php')" data-i118n="footer_faq">자주 묻는 질문</li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Follow Us</h4>
-                <div class="sns-icons">
-                    <a href="https://www.instagram.com/momstouch.love" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-info">
-            <p data-i118n="footer_addr">서울시 강동구 천호대로 1234, 5층 (주)맘스터치앤컴퍼니</p>
-            <p data-i18n="footer_ceo">대표이사: 김맘스 | 사업자등록번호: 123-45-67890 | 고객센터: 1588-1234</p>
-            <p style="margin-top:10px;">&copy; 2025 MOM'S TOUCH Clone Project. All Rights Reserved.</p>
-        </div>
-    </footer>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4 data-i18n="footer_company">회사 소개</h4>
+                <ul>
+                    <li onclick="openBrandStory()" data-i18n="nav_story">브랜드 스토리</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/franchise/process.php')" data-i18n="footer_franchise">가맹점 문의</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/brand/recruit.php')" data-i18n="footer_recruit">채용 정보</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/store/search.php')" data-i18n="footer_map">찾아오시는 길</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_support">고객 지원</h4>
+                <ul>
+                    <li onclick="window.open('https://www.momstouch.co.kr/member/terms.php')" data-i18n="footer_terms">이용약관</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/member/privacy.php')" data-i18n="footer_privacy">개인정보처리방침</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/customer/inquiry.php')" data-i18n="nav_cs">고객센터</li>
+                    <li onclick="window.open('https://www.momstouch.co.kr/customer/faq.php')" data-i18n="footer_faq">자주 묻는 질문</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="sns-icons">
+                    <a href="https://www.instagram.com/momstouch.love" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-info">
+            <p data-i18n="footer_addr">서울시 강동구 천호대로 1234, 5층 (주)맘스터치앤컴퍼니</p>
+            <p data-i18n="footer_ceo">대표이사: 김맘스 | 사업자등록번호: 123-45-67890 | 고객센터: 1588-1234</p>
+            <p style="margin-top:10px;">&copy; 2025 MOM'S TOUCH Clone Project. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-    <script>
-        let currentLang = 'ko';
-        const translations = {
-            ko: { 
-                heroTitle: "압도적인 크기, 싸이버거", heroSub: "주문 즉시 조리하는 신선한 수제 버거의 기준", orderBtn: "주문하기",
-                menuTitle: "맘스터치 대표 메뉴", menuSub: "가성비 그 이상의 감동을 만나보세요",
-                menu1_name: "싸이버거", menu1_desc: "매콤바삭한 통다리살 패티가 통째로!",
-                menu2_name: "케이준떡닭강정", menu2_desc: "케이준 소스를 입은 바삭한 닭강정과 쫄깃한 떡!", // 신규 추가
-                menu3_name: "케이준 양념감자", menu3_desc: "한 번 맛보면 멈출 수 없는 감자튀김.",
-                menu4_name: "후라이드 치킨", menu4_desc: "겉바속촉의 정석, 맘스터치 치킨.",
-                nav_story: "브랜드 스토리", nav_menu: "메뉴소개", nav_store: "매장찾기", nav_cs: "고객센터", nav_event: "이벤트", settings: "설정",
-                nut_w: "중량(g)", nut_k: "칼로리(kcal)", nut_p: "단백질(g)", nut_n: "나트륨(mg)",
-                btn_cancel: "취소", btn_add: "장바구니 담기", cart_title: "장바구니", cart_empty: "장바구니가 비었습니다.", btn_more: "더 담기", btn_pay: "결제하기",
-                footer_company: "회사 소개", footer_franchise: "가맹점 문의", footer_recruit: "채용 정보", footer_map: "찾아오시는 길",
-                footer_support: "고객 지원", footer_terms: "이용약관", footer_privacy: "개인정보처리방침", footer_faq: "자주 묻는 질문",
-                footer_addr: "서울시 강동구 천호대로 1234, 5층 (주)맘스터치앤컴퍼니", footer_ceo: "대표이사: 김맘스 | 사업자등록번호: 123-45-67890 | 고객센터: 1588-1234",
-                brand_title: "빠르게보다 올바르게",
-                brand_desc: "맘스터치는 단순한 패스트푸드가 아닙니다.\n우리는 주문 후 조리하는 방식을 고집합니다.\n\n신선한 재료와 정성스러운 손길로\n엄마의 마음을 담아 따뜻한 한 끼를 제공합니다.\n\n가성비를 넘어 가심비까지,\n대한민국 대표 버거 브랜드 맘스터치입니다.",
-                // 세트 업그레이드 관련 추가
-                set_upgrade_title: "세트 메뉴 업그레이드",
-                set_upgrade_msg: "지금 싸이버거를 세트로 업그레이드 하시겠어요?",
-                set_upgrade_info: "싸이버거 세트 (₩6,900)는 싸이버거 단품에 **케이준 양념감자**와 **콜라**가 추가됩니다.",
-                set_upgrade_yes: "네, 세트로 바꿀게요",
-                set_upgrade_no: "아니요, 단품으로 담을게요",
-                menu1_set: "싸이버거 세트",
-                toast_add: "장바구니에 담겼습니다!",
-                toast_order_complete: "주문이 완료되었습니다!"
-            },
-            en: { 
-                heroTitle: "Overwhelming Size, Thigh Burger", heroSub: "Standard of fresh handmade burgers cooked to order.", orderBtn: "Order Now",
-                menuTitle: "Signature Menu", menuSub: "Experience value beyond price.",
-                menu1_name: "Thigh Burger", menu1_desc: "Spicy & crispy whole chicken thigh patty!",
-                menu2_name: "Cajun Tteokgangjeong", menu2_desc: "Crispy chicken bites and chewy rice cakes with Cajun sauce!", // 신규 추가
-                menu3_name: "Cajun Fries", menu3_desc: "Crispy fries with special seasoning you can't stop.",
-                menu4_name: "Fried Chicken", menu4_desc: "Classic crispy chicken. The standard of taste.",
-                nav_story: "Brand Story", nav_menu: "Menu", nav_store: "Find Store", nav_cs: "Support", nav_event: "Events", settings: "Settings",
-                nut_w: "Weight(g)", nut_k: "Calories", nut_p: "Protein(g)", nut_n: "Sodium(mg)",
-                btn_cancel: "Cancel", btn_add: "Add to Cart", cart_title: "My Cart", cart_empty: "Your cart is empty.", btn_more: "Add More", btn_pay: "Checkout",
-                footer_company: "About Us", footer_franchise: "Franchise", footer_recruit: "Careers", footer_map: "Location",
-                footer_support: "Support", footer_terms: "Terms of Use", footer_privacy: "Privacy Policy", footer_faq: "FAQ",
-                footer_addr: "5F, 1234 Cheonho-daero, Gangdong-gu, Seoul, Korea", footer_ceo: "CEO: Kim Moms | Reg. No: 123-45-67890 | CS: 1588-1234",
-                brand_title: "Quality over Speed",
-                brand_desc: "Mom's Touch is not just fast food.\nWe insist on cooking after ordering.\n\nWith fresh ingredients and careful hands,\nwe provide a warm meal with a mother's heart.\n\nBeyond cost-effectiveness to satisfaction,\nKorea's representative burger brand, Mom's Touch.",
-                // 세트 업그레이드 관련 추가
-                set_upgrade_title: "Set Menu Upgrade",
-                set_upgrade_msg: "Would you like to upgrade your Thigh Burger to a set?",
-                set_upgrade_info: "The Thigh Burger Set (₩6,900) includes the Thigh Burger, **Cajun Fries**, and **Coke**.",
-                set_upgrade_yes: "Yes, upgrade to set",
-                set_upgrade_no: "No, add a single item",
-                menu1_set: "Thigh Burger Set",
-                toast_add: "Added to cart!",
-                toast_order_complete: "Order completed!"
-            },
-            jp: { 
-                heroTitle: "圧倒的な大きさ、サイバーガー", heroSub: "注文後すぐに調理する新鮮な手作りバーガーの基準。", orderBtn: "注文する",
-                menuTitle: "代表メニュー", menuSub: "コスパ以上の感動に出会ってください。",
-                menu1_name: "サイバーガー", menu1_desc: "辛くてサクサクの鶏もも肉パティが丸ごと！",
-                menu2_name: "ケイジャン トッカンジョン", menu2_desc: "ケイジャンソースをまとったサクサクの鶏肉と、もちもちのお餅！", // 신규 추가
-                menu3_name: "ケイジャンポテト", menu3_desc: "一度食べたら止まらないマムズタッチだけの味付けポテト。",
-                menu4_name: "フライドチキン", menu4_desc: "外はサクサク、中はジューシー。クラシックなチキン。",
-                nav_story: "ブランドストーリー", nav_menu: "メニュー", nav_store: "店舗検索", nav_cs: "お客様センター", nav_event: "イベント", settings: "設定",
-                nut_w: "重量(g)", nut_k: "カロリー", nut_p: "タンパク質(g)", nut_n: "ナトリウム(mg)",
-                btn_cancel: "キャンセル", btn_add: "カートに追加", cart_title: "カート", cart_empty: "カートは空です。", btn_more: "買い物を続ける", btn_pay: "お会計",
-                footer_company: "会社概要", footer_franchise: "加盟店募集", footer_recruit: "採用情報", footer_map: "アクセス",
-                footer_support: "カスタマーサポート", footer_terms: "利用規約", footer_privacy: "個人情報処理方針", footer_faq: "よくある質問",
-                footer_addr: "ソウル特別市 江東区 千戸大路 1234, 5階 (株)マムズタッチ＆カンパニー", footer_ceo: "代表取締役: キム・マムス | 事業者番号: 123-45-67890",
-                brand_title: "速さよりも正しさを",
-                brand_desc: "マムズタッチは単なるファーストフードではありません。\n私たちは注文後の調理にこだわっています。\n\n新鮮な材料と丁寧な手つきで\n母の心を込めて温かい食事を提供します。\n\nコスパを超えた満足感まで、\n韓国を代表するバーガーブランド、マムズタッチです。",
-                // 세트 업그레이드 관련 추가
-                set_upgrade_title: "セットメニューアップグレード",
-                set_upgrade_msg: "今すぐサイバーガーをセットにアップグレードしますか？",
-                set_upgrade_info: "サイバーガーセット（₩6,900）には、単品に加えて**ケイジャンポテト**と**コーラ**が含まれます。",
-                set_upgrade_yes: "はい、セットに変更します",
-                set_upgrade_no: "いいえ、単品でカートに入れます",
-                menu1_set: "サイバーガーセット",
-                toast_add: "カートに追加されました！",
-                toast_order_complete: "ご注文が完了しました!"
-            }
-        };
+    <script>
+        let currentLang = 'ko';
+        const translations = {
+            ko: { 
+                heroTitle: "압도적인 크기, 싸이버거", heroSub: "주문 즉시 조리하는 신선한 수제 버거의 기준", orderBtn: "주문하기",
+                menuTitle: "맘스터치 대표 메뉴", menuSub: "가성비 그 이상의 감동을 만나보세요",
+                menu1_name: "싸이버거", menu1_desc: "매콤바삭한 통다리살 패티가 통째로!",
+                menu3_name: "케이준 양념감자", menu3_desc: "한 번 맛보면 멈출 수 없는 감자튀김.",
+                menu4_name: "후라이드 치킨", menu4_desc: "겉바속촉의 정석, 맘스터치 치킨.",
+                nav_story: "브랜드 스토리", nav_menu: "메뉴소개", nav_store: "매장찾기", nav_cs: "고객센터", nav_event: "이벤트", settings: "설정",
+                nut_w: "중량(g)", nut_k: "칼로리(kcal)", nut_p: "단백질(g)", nut_n: "나트륨(mg)",
+                btn_cancel: "취소", btn_add: "장바구니 담기", cart_title: "장바구니", cart_empty: "장바구니가 비었습니다.", btn_more: "더 담기", btn_pay: "결제하기",
+                footer_company: "회사 소개", footer_franchise: "가맹점 문의", footer_recruit: "채용 정보", footer_map: "찾아오시는 길",
+                footer_support: "고객 지원", footer_terms: "이용약관", footer_privacy: "개인정보처리방침", footer_faq: "자주 묻는 질문",
+                footer_addr: "서울시 강동구 천호대로 1234, 5층 (주)맘스터치앤컴퍼니", footer_ceo: "대표이사: 김맘스 | 사업자등록번호: 123-45-67890 | 고객센터: 1588-1234",
+                brand_title: "빠르게보다 올바르게",
+                brand_desc: "맘스터치는 단순한 패스트푸드가 아닙니다.\n우리는 주문 후 조리하는 방식을 고집합니다.\n\n신선한 재료와 정성스러운 손길로\n엄마의 마음을 담아 따뜻한 한 끼를 제공합니다.\n\n가성비를 넘어 가심비까지,\n대한민국 대표 버거 브랜드 맘스터치입니다.",
+                // 세트 업그레이드 관련 추가
+                set_upgrade_title: "세트 메뉴 업그레이드",
+                set_upgrade_msg: "지금 싸이버거를 세트로 업그레이드 하시겠어요?",
+                set_upgrade_info: "싸이버거 세트 (₩6,900)는 싸이버거 단품에 **케이준 양념감자**와 **콜라**가 추가됩니다.",
+                set_upgrade_yes: "네, 세트로 바꿀게요",
+                set_upgrade_no: "아니요, 단품으로 담을게요",
+                menu1_set: "싸이버거 세트",
+                toast_add: "장바구니에 담겼습니다!",
+                toast_order_complete: "주문이 완료되었습니다!"
+            },
+            en: { 
+                heroTitle: "Overwhelming Size, Thigh Burger", heroSub: "Standard of fresh handmade burgers cooked to order.", orderBtn: "Order Now",
+                menuTitle: "Signature Menu", menuSub: "Experience value beyond price.",
+                menu1_name: "Thigh Burger", menu1_desc: "Spicy & crispy whole chicken thigh patty!",
+                menu3_name: "Cajun Fries", menu3_desc: "Crispy fries with special seasoning you can't stop.",
+                menu4_name: "Fried Chicken", menu4_desc: "Classic crispy chicken. The standard of taste.",
+                nav_story: "Brand Story", nav_menu: "Menu", nav_store: "Find Store", nav_cs: "Support", nav_event: "Events", settings: "Settings",
+                nut_w: "Weight(g)", nut_k: "Calories", nut_p: "Protein(g)", nut_n: "Sodium(mg)",
+                btn_cancel: "Cancel", btn_add: "Add to Cart", cart_title: "My Cart", cart_empty: "Your cart is empty.", btn_more: "Add More", btn_pay: "Checkout",
+                footer_company: "About Us", footer_franchise: "Franchise", footer_recruit: "Careers", footer_map: "Location",
+                footer_support: "Support", footer_terms: "Terms of Use", footer_privacy: "Privacy Policy", footer_faq: "FAQ",
+                footer_addr: "5F, 1234 Cheonho-daero, Gangdong-gu, Seoul, Korea", footer_ceo: "CEO: Kim Moms | Reg. No: 123-45-67890 | CS: 1588-1234",
+                brand_title: "Quality over Speed",
+                brand_desc: "Mom's Touch is not just fast food.\nWe insist on cooking after ordering.\n\nWith fresh ingredients and careful hands,\nwe provide a warm meal with a mother's heart.\n\nBeyond cost-effectiveness to satisfaction,\nKorea's representative burger brand, Mom's Touch.",
+                // 세트 업그레이드 관련 추가
+                set_upgrade_title: "Set Menu Upgrade",
+                set_upgrade_msg: "Would you like to upgrade your Thigh Burger to a set?",
+                set_upgrade_info: "The Thigh Burger Set (₩6,900) includes the Thigh Burger, **Cajun Fries**, and **Coke**.",
+                set_upgrade_yes: "Yes, upgrade to set",
+                set_upgrade_no: "No, add a single item",
+                menu1_set: "Thigh Burger Set",
+                toast_add: "Added to cart!",
+                toast_order_complete: "Order completed!"
+            },
+            jp: { 
+                heroTitle: "圧倒的な大きさ、サイバーガー", heroSub: "注文後すぐに調理する新鮮な手作りバーガーの基準。", orderBtn: "注文する",
+                menuTitle: "代表メニュー", menuSub: "コスパ以上の感動に出会ってください。",
+                menu1_name: "サイバーガー", menu1_desc: "辛くてサクサクの鶏もも肉パティが丸ごと！",
+                menu3_name: "ケイジャンポテト", menu3_desc: "一度食べたら止まらないマムズタッチだけの味付けポテト。",
+                menu4_name: "フライドチキン", menu4_desc: "外はサクサク、中はジューシー。クラシックなチキン。",
+                nav_story: "ブランドストーリー", nav_menu: "メニュー", nav_store: "店舗検索", nav_cs: "お客様センター", nav_event: "イベント", settings: "設定",
+                nut_w: "重量(g)", nut_k: "カロリー", nut_p: "タンパク質(g)", nut_n: "ナトリウム(mg)",
+                btn_cancel: "キャンセル", btn_add: "カートに追加", cart_title: "カート", cart_empty: "カートは空です。", btn_more: "買い物を続ける", btn_pay: "お会計",
+                footer_company: "会社概要", footer_franchise: "加盟店募集", footer_recruit: "採用情報", footer_map: "アクセス",
+                footer_support: "カスタマーサポート", footer_terms: "利用規約", footer_privacy: "個人情報処理方針", footer_faq: "よくある質問",
+                footer_addr: "ソウル特別市 江東区 千戸大路 1234, 5階 (株)マムズタッチ＆カンパニー", footer_ceo: "代表取締役: キム・マムス | 事業者番号: 123-45-67890",
+                brand_title: "速さよりも正しさを",
+                brand_desc: "マムズタッチは単なるファーストフードではありません。\n私たちは注文後の調理にこだわっています。\n\n新鮮な材料と丁寧な手つきで\n母の心を込めて温かい食事を提供します。\n\nコスパを超えた満足感まで、\n韓国を代表するバーガーブランド、マムズタッチです。",
+                // 세트 업그레이드 관련 추가
+                set_upgrade_title: "セットメニューアップグレード",
+                set_upgrade_msg: "今すぐサイバーガーをセットにアップグレードしますか？",
+                set_upgrade_info: "サイバーガーセット（₩6,900）には、単品に加えて**ケイジャンポテト**と**コーラ**が含まれます。",
+                set_upgrade_yes: "はい、セットに変更します",
+                set_upgrade_no: "いいえ、単品でカートに入れます",
+                menu1_set: "サイバーガーセット",
+                toast_add: "カートに追加されました！",
+                toast_order_complete: "ご注文が完了しました!"
+            }
+        };
 
-        const products = {
-            1: { id: 1, nameKey: "menu1_name", descKey: "menu1_desc", price: 4600, img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1500&auto=format&fit=crop", nutrition: {w: 230, kcal: 594, p: 28, na: 1025} },
-            4: { id: 4, nameKey: "menu2_name", descKey: "menu2_desc", price: 11700, img: "image_dc29f7.jpg", nutrition: {w: 210, kcal: 657, p: 23.1, na: 1009} }, // 케이준떡닭강정 추가
-            101: { id: 101, nameKey: "menu1_set", descKey: "menu1_desc", price: 6900, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop", nutrition: {w: 580, kcal: 974, p: 32, na: 1350} }, // 세트 메뉴 (싸이버거)
-            2: { id: 2, nameKey: "menu3_name", descKey: "menu3_desc", price: 2000, img: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=1450&auto=format&fit=crop", nutrition: {w: 100, kcal: 313, p: 4, na: 620} },
-            3: { id: 3, nameKey: "menu4_name", descKey: "menu4_desc", price: 16900, img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=1470&auto=format&fit=crop", nutrition: {w: 800, kcal: 2150, p: 140, na: 3200} }
-        };
+        const products = {
+            1: { id: 1, nameKey: "menu1_name", descKey: "menu1_desc", price: 4600, img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=1500&auto=format&fit=crop", nutrition: {w: 230, kcal: 594, p: 28, na: 1025} },
+            101: { id: 101, nameKey: "menu1_set", descKey: "menu1_desc", price: 6900, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop", nutrition: {w: 580, kcal: 974, p: 32, na: 1350} }, // 세트 추가
+            2: { id: 2, nameKey: "menu3_name", descKey: "menu3_desc", price: 2000, img: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=1450&auto=format&fit=crop", nutrition: {w: 100, kcal: 313, p: 4, na: 620} },
+            3: { id: 3, nameKey: "menu4_name", descKey: "menu4_desc", price: 16900, img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=1470&auto=format&fit=crop", nutrition: {w: 800, kcal: 2150, p: 140, na: 3200} }
+        };
 
-        let cart = []; 
-        let currentProductId = null;
+        let cart = []; 
+        let currentProductId = null;
 
-        const setUpgradeModal = `
-            <div id="setUpgradeModal" class="modal">
-                <div class="modal-content" style="max-width:450px;">
-                    <h2 style="color:var(--secondary); margin-bottom:15px;" data-i118n="set_upgrade_title">세트 메뉴 업그레이드</h2>
-                    <p style="font-size:1.1rem; font-weight:bold; margin-bottom:15px;" data-i118n="set_upgrade_msg">지금 싸이버거를 세트로 업그레이드 하시겠어요?</p>
-                    <div style="background-color:var(--border); padding:15px; border-radius:10px; margin-bottom:20px; text-align:left;">
-                        <p data-i118n="set_upgrade_info">싸이버거 세트 (₩6,900)는 싸이버거 단품에 **케이준 양념감자**와 **콜라**가 추가됩니다.</p>
-                    </div>
-                    <div class="modal-btns">
-                        <button class="btn-modal btn-close" onclick="confirmSetUpgrade(false)" data-i118n="set_upgrade_no">아니요, 단품으로 담을게요</button>
-                        <button class="btn-modal btn-add" onclick="confirmSetUpgrade(true)" data-i118n="set_upgrade_yes">네, 세트로 바꿀게요</button>
-                    </div>
-                </div>
-            </div>
-        `;
+        const setUpgradeModal = `
+            <div id="setUpgradeModal" class="modal">
+                <div class="modal-content" style="max-width:450px;">
+                    <h2 style="color:var(--secondary); margin-bottom:15px;" data-i18n="set_upgrade_title">세트 메뉴 업그레이드</h2>
+                    <p style="font-size:1.1rem; font-weight:bold; margin-bottom:15px;" data-i18n="set_upgrade_msg">지금 싸이버거를 세트로 업그레이드 하시겠어요?</p>
+                    <div style="background-color:var(--border); padding:15px; border-radius:10px; margin-bottom:20px; text-align:left;">
+                        <p data-i18n="set_upgrade_info">싸이버거 세트 (₩6,900)는 싸이버거 단품에 **케이준 양념감자**와 **콜라**가 추가됩니다.</p>
+                    </div>
+                    <div class="modal-btns">
+                        <button class="btn-modal btn-close" onclick="confirmSetUpgrade(false)" data-i18n="set_upgrade_no">아니요, 단품으로 담을게요</button>
+                        <button class="btn-modal btn-add" onclick="confirmSetUpgrade(true)" data-i18n="set_upgrade_yes">네, 세트로 바꿀게요</button>
+                    </div>
+                </div>
+            </div>
+        `;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // 기존 코드 유지 (언어, 테마 설정)
-            const savedLang = localStorage.getItem('momstouch_lang');
-            if(savedLang) changeLanguage(savedLang);
+        document.addEventListener('DOMContentLoaded', () => {
+            // 기존 코드 유지 (언어, 테마 설정)
+            const savedLang = localStorage.getItem('momstouch_lang');
+            if(savedLang) changeLanguage(savedLang);
 
-            const savedTheme = localStorage.getItem('momstouch_theme');
-            if(savedTheme === 'dark') document.body.classList.add('dark-mode');
-            
-            // 세트 업그레이드 모달 DOM에 추가
-            document.body.insertAdjacentHTML('beforeend', setUpgradeModal);
-        });
+            const savedTheme = localStorage.getItem('momstouch_theme');
+            if(savedTheme === 'dark') document.body.classList.add('dark-mode');
+            
+            // 세트 업그레이드 모달 DOM에 추가
+            document.body.insertAdjacentHTML('beforeend', setUpgradeModal);
+        });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.className = "toast show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-        }
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "toast show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
 
-        function openBrandStory() {
-            document.getElementById('brandModal').style.display = 'flex';
-        }
-        function closeBrandStory() {
-            document.getElementById('brandModal').style.display = 'none';
-        }
+        function openBrandStory() {
+            document.getElementById('brandModal').style.display = 'flex';
+        }
+        function closeBrandStory() {
+            document.getElementById('brandModal').style.display = 'none';
+        }
 
-        // 메뉴 상세 보기 함수 (ID 1은 세트 업그레이드 프롬프트 호출)
-        function showDetail(id) {
-            currentProductId = id;
-            
-            if (id === 1) { // 싸이버거(ID: 1)를 클릭했을 경우
-                showSetUpgradePrompt(id);
-                return;
-            }
+        // **변경: 메뉴 상세 보기 함수**
+        function showDetail(id) {
+            currentProductId = id;
+            
+            if (id === 1) { // 싸이버거(ID: 1)를 클릭했을 경우
+                showSetUpgradePrompt(id);
+                return;
+            }
 
-            // 그 외 메뉴는 기존 로직 유지
-            const p = products[id];
-            const t = translations[currentLang];
-            
-            document.getElementById('modalTitle').innerText = t[p.nameKey];
-            document.getElementById('modalDesc').innerText = t[p.descKey];
-            document.getElementById('modalPrice').innerText = `₩${p.price.toLocaleString()}`;
-            document.getElementById('modalImg').src = p.img;
-            document.getElementById('nutWeight').innerText = p.nutrition.w;
-            document.getElementById('nutKcal').innerText = p.nutrition.kcal;
-            document.getElementById('nutProtein').innerText = p.nutrition.p;
-            document.getElementById('nutNa').innerText = p.nutrition.na;
-            
-            document.querySelector('#detailModal [data-i118n="btn_cancel"]').innerText = t.btn_cancel;
-            document.querySelector('#detailModal [data-i118n="btn_add"]').innerText = t.btn_add;
+            // 그 외 메뉴는 기존 로직 유지
+            const p = products[id];
+            const t = translations[currentLang];
+            
+            document.getElementById('modalTitle').innerText = t[p.nameKey];
+            document.getElementById('modalDesc').innerText = t[p.descKey];
+            document.getElementById('modalPrice').innerText = `₩${p.price.toLocaleString()}`;
+            document.getElementById('modalImg').src = p.img;
+            document.getElementById('nutWeight').innerText = p.nutrition.w;
+            document.getElementById('nutKcal').innerText = p.nutrition.kcal;
+            document.getElementById('nutProtein').innerText = p.nutrition.p;
+            document.getElementById('nutNa').innerText = p.nutrition.na;
+            
+            document.querySelector('#detailModal [data-i18n="btn_cancel"]').innerText = t.btn_cancel;
+            document.querySelector('#detailModal [data-i18n="btn_add"]').innerText = t.btn_add;
 
-            document.getElementById('detailModal').style.display = 'flex';
-        }
+            document.getElementById('detailModal').style.display = 'flex';
+        }
 
-        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
-      
-        // 장바구니에 추가 함수 (싸이버거 제외)
-        function addToCartFromModal() {
-            if (currentProductId && currentProductId !== 1) { 
-                cart.push(currentProductId); 
-                updateCartUI();
-                closeDetail();
-            }
-        }
+        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+        
+        // **수정: 장바구니에 추가 함수 (싸이버거 제외)**
+        function addToCartFromModal() {
+            if (currentProductId && currentProductId !== 1) { // 싸이버거(ID: 1)가 아닌 경우에만 실행
+                cart.push(currentProductId); 
+                updateCartUI();
+                closeDetail();
+            }
+        }
 
-        // 세트 업그레이드 프롬프트 표시
-        function showSetUpgradePrompt(baseId) {
-            currentProductId = baseId; 
-            const modal = document.getElementById('setUpgradeModal');
-            const t = translations[currentLang];
+        // **신규: 세트 업그레이드 프롬프트 표시**
+        function showSetUpgradePrompt(baseId) {
+            currentProductId = baseId; // 1 (싸이버거 단품 ID) 저장
+            const modal = document.getElementById('setUpgradeModal');
+            const t = translations[currentLang];
 
-            // 텍스트 업데이트 (다국어 지원)
-            modal.querySelector('[data-i118n="set_upgrade_title"]').innerText = t.set_upgrade_title;
-            modal.querySelector('[data-i118n="set_upgrade_msg"]').innerText = t.set_upgrade_msg;
-            modal.querySelector('[data-i118n="set_upgrade_info"]').innerHTML = t.set_upgrade_info.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            modal.querySelector('[data-i118n="set_upgrade_no"]').innerText = t.set_upgrade_no;
-            modal.querySelector('[data-i118n="set_upgrade_yes"]').innerText = t.set_upgrade_yes;
+            // 텍스트 업데이트 (다국어 지원)
+            modal.querySelector('[data-i18n="set_upgrade_title"]').innerText = t.set_upgrade_title;
+            modal.querySelector('[data-i18n="set_upgrade_msg"]').innerText = t.set_upgrade_msg;
+            modal.querySelector('[data-i18n="set_upgrade_info"]').innerHTML = t.set_upgrade_info.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            modal.querySelector('[data-i18n="set_upgrade_no"]').innerText = t.set_upgrade_no;
+            modal.querySelector('[data-i18n="set_upgrade_yes"]').innerText = t.set_upgrade_yes;
 
-            modal.style.display = 'flex';
-        }
+            modal.style.display = 'flex';
+        }
 
-        // 세트 업그레이드 결정 및 장바구니 추가
-        function confirmSetUpgrade(isSet) {
-            document.getElementById('setUpgradeModal').style.display = 'none';
-            
-            let itemId = currentProductId;
+        // **신규: 세트 업그레이드 결정**
+        function confirmSetUpgrade(isSet) {
+            document.getElementById('setUpgradeModal').style.display = 'none';
+            
+            const t = translations[currentLang];
+            let itemId = currentProductId;
 
-            if (isSet) {
-                itemId = 101; // 세트 메뉴 ID
-            }
-            
-            cart.push(itemId);
-            updateCartUI();
-        }
+            if (isSet) {
+                itemId = 101; // 세트 메뉴 ID
+            } 
+            
+            cart.push(itemId);
+            updateCartUI();
+        }
 
-        // 장바구니 UI 업데이트
-        function updateCartUI() { 
-            document.getElementById('cartCount').innerText = cart.length; 
-            if (cart.length > 0) showToast(translations[currentLang].toast_add);
-        }
-      
-        // 장바구니 열기
-        function openCart() {
-            const list = document.getElementById('cartList');
-            const totalEl = document.getElementById('cartTotal');
-            list.innerHTML = "";
-            let total = 0;
-            const t = translations[currentLang];
+        // **수정: 장바구니 UI 업데이트**
+        function updateCartUI() { 
+            document.getElementById('cartCount').innerText = cart.length; 
+            if (cart.length > 0) showToast(translations[currentLang].toast_add);
+        }
+        
+        // **수정: 장바구니 열기**
+        function openCart() {
+            const list = document.getElementById('cartList');
+            const totalEl = document.getElementById('cartTotal');
+            list.innerHTML = "";
+            let total = 0;
+            const t = translations[currentLang];
 
-            if (cart.length === 0) {
-                list.innerHTML = `<li style='padding:20px; text-align:center;'>${t.cart_empty}</li>`;
-            } else {
-                cart.forEach((id, index) => {
-                    const item = products[id];
-                    total += item.price;
-                    // 세트일 경우 이름 다르게 표시
-                    const itemName = (id === 101) ? t.menu1_set : t[item.nameKey]; 
-                    
-                    list.innerHTML += `
-                        <li class="cart-item">
-                            <span>${itemName}</span>
-                            <span style="font-weight:bold;">₩${item.price.toLocaleString()}</span>
-                            <button onclick="removeFromCart(${index})" style="color:red; background:none; margin-left:10px;"><i class="fas fa-trash"></i></button>
-                        </li>
-                    `;
-                });
-            }
-            totalEl.innerText = `Total: ₩${total.toLocaleString()}`;
-            
-            // 텍스트 업데이트
-            document.querySelector('#cartModal [data-i118n="btn_pay"]').innerText = t.btn_pay;
-            document.querySelector('#cartModal [data-i118n="btn_more"]').innerText = t.btn_more;
-            document.querySelector('#cartModal [data-i118n="cart_title"]').innerText = t.cart_title;
-            
-            document.getElementById('cartModal').style.display = 'flex';
-        }
+            if (cart.length === 0) {
+                list.innerHTML = `<li style='padding:20px; text-align:center;'>${t.cart_empty}</li>`;
+            } else {
+                cart.forEach((id, index) => {
+                    const item = products[id];
+                    total += item.price;
+                    // 세트일 경우 이름 다르게 표시
+                    const itemName = (id === 101) ? t.menu1_set : t[item.nameKey]; 
+                    
+                    list.innerHTML += `
+                        <li class="cart-item">
+                            <span>${itemName}</span>
+                            <span style="font-weight:bold;">₩${item.price.toLocaleString()}</span>
+                            <button onclick="removeFromCart(${index})" style="color:red; background:none; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                        </li>
+                    `;
+                });
+            }
+            totalEl.innerText = `Total: ₩${total.toLocaleString()}`;
+            
+            // 결제하기 버튼 텍스트 업데이트
+            document.querySelector('#cartModal [data-i18n="btn_pay"]').innerText = t.btn_pay;
+            document.querySelector('#cartModal [data-i18n="btn_more"]').innerText = t.btn_more;
+            document.querySelector('#cartModal [data-i18n="cart_title"]').innerText = t.cart_title;
+            
+            document.getElementById('cartModal').style.display = 'flex';
+        }
 
-        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); openCart(); } 
-        function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-      
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('momstouch_theme', isDark ? 'dark' : 'light');
-        }
-      
-        function changeLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('momstouch_lang', lang);
-            
-            const t = translations[lang];
-            if(!t) return;
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); openCart(); } // 장바구니에서 항목 제거
+        function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('momstouch_theme', isDark ? 'dark' : 'light');
+        }
+        
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('momstouch_lang', lang);
+            
+            const t = translations[lang];
+            if(!t) return;
 
-            document.querySelectorAll('[data-i118n]').forEach(el => {
-                const key = el.getAttribute('data-i118n');
-                if (t[key]) {
-                    // 줄바꿈 처리를 위한 로직 유지
-                    if (key === 'brand_desc' || key === 'set_upgrade_info') {
-                        let content = t[key];
-                        content = content.replace(/\n/g, '<br>');
-                        content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                        el.innerHTML = content;
-                    } else {
-                        el.innerText = t[key];
-                    }
-                }
-            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    // brand_desc는 줄바꿈을 위해 innerHTML 사용
+                    if (key === 'brand_desc') {
+                        el.innerHTML = t[key].replace(/\n/g, '<br>');
+                    } else if (key === 'set_upgrade_info') {
+                        // 볼드체 처리를 위해 innerHTML 사용
+                        el.innerHTML = t[key].replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    } else {
+                        el.innerText = t[key];
+                    }
+                }
+            });
 
-            document.querySelectorAll('.lang-select').forEach(el => el.value = lang);
-        }
-      
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) { 
-                event.target.style.display = "none"; 
-            }
-        }
-      
-        // 주문 완료 시 토스트 메시지 출력 (결제하기 버튼)
-        document.querySelector('#cartModal .btn-add').onclick = () => {
-            if(cart.length > 0) {
-                showToast(translations[currentLang].toast_order_complete);
-                closeCart();
-                cart = [];
-                updateCartUI();
-            } else {
-                showToast(translations[currentLang].cart_empty);
-            }
-        };
-    </script>
+            document.querySelectorAll('.lang-select').forEach(el => el.value = lang);
+        }
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) { event.target.style.display = "none"; }
+        }
+        
+        // 주문 완료 시 토스트 메시지 출력
+        document.querySelector('#cartModal .btn-add').onclick = () => {
+            if(cart.length > 0) {
+                showToast(translations[currentLang].toast_order_complete);
+                closeCart();
+                cart = [];
+                updateCartUI();
+            } else {
+                showToast(translations[currentLang].cart_empty);
+            }
+        };
+    </script>
 
 </body>
 </html>
